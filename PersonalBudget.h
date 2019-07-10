@@ -1,4 +1,5 @@
 #include <iostream>
+#include <windows.h>
 
 #include "UserManager.h"
 #include "BudgetManager.h"
@@ -36,5 +37,7 @@ public:
     void changePassword();
     void logOut();
     void displayMenu();
+    char chooseOptionFromMenu();
+    char chooseOptionFromMenuLoggedUsers();
 
 };
