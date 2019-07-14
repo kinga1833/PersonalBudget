@@ -70,11 +70,19 @@ vector <IncomesExpenses> ExpensesFile::downloadLoggedInUserExpenses(int loggedIn
         }
          xml.OutOfElem();
     }
-    lastExpenseID = expenses.back().getIncomeOrExpenseID();
+    if (fileExists(expensesFileName.c_str())== true)
+    {
+        lastExpenseID = expenses.back().getIncomeOrExpenseID();
+    }
+    else
+    {
+        lastExpenseID = 0;
+    }
+    //lastExpenseID = expenses.back().getIncomeOrExpenseID();
 
     return expenses;
 }
-bool ExpensesFile::fileExists (const string& fileName)
+bool ExpensesFile::fileExists (const string &fileName)
 {
     fstream plik;
     plik.open(fileName.c_str(), ios::in);

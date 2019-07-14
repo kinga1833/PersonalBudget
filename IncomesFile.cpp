@@ -47,6 +47,34 @@ vector <IncomesExpenses> IncomesFile::downloadLoggedInUserIncomes(int loggedInUs
     xml.Load(incomesFileName.c_str());
     xml.FindElem("INCOMES");
     xml.IntoElem();
+    cout << "kaka" << endl;
+    while (xml.FindElem("INCOME"))
+    {
+        xml.IntoElem();
+        xml.FindElem("USERID");
+        userid = atoi( MCD_2PCSZ(xml.GetData()));
+        cout << userid << endl;
+        if (userid == loggedInUserID)
+        {
+            cout << "kaka2" << endl;
+            income.setUserID(userid);
+            xml.FindElem( "INCOMEID" );
+            income.setIncomeOrExpenseID(atoi( MCD_2PCSZ(xml.GetData())));
+            xml.FindElem( "DATE" );
+            income.setDate(atoi( MCD_2PCSZ(xml.GetData())));
+            xml.FindElem( "TITLE" );
+            income.setTitle(MCD_2PCSZ(xml.GetData())) ;
+            xml.FindElem( "AMOUNT" );
+            income.setAmount(atoi (MCD_2PCSZ(xml.GetData())));
+
+            incomes.push_back(income);
+        }
+        xml.OutOfElem();
+    }
+
+    /*xml.Load(incomesFileName.c_str());
+    xml.FindElem("INCOMES");
+    xml.IntoElem();
 
     while (xml.FindElem("INCOME"))
     {
@@ -69,11 +97,19 @@ vector <IncomesExpenses> IncomesFile::downloadLoggedInUserIncomes(int loggedInUs
             incomes.push_back(income);
         }
          xml.OutOfElem();
+    }*/
+    if (fileExists(incomesFileName.c_str())== true)
+    {
+        lastIncomeID = incomes.back().getIncomeOrExpenseID();
     }
-    lastIncomeID = incomes.back().getIncomeOrExpenseID();
+    else
+    {
+        lastIncomeID = 0;
+    }
+
     return incomes;
 }
-bool IncomesFile::fileExists (const string& fileName)
+bool IncomesFile::fileExists (const string &fileName)
 {
     fstream plik;
     plik.open(fileName.c_str(), ios::in);

@@ -89,17 +89,16 @@ vector <IncomesExpenses> BudgetManager::loadIncomesOrExpensesFromChoosenPeriod (
     int justDate;
     IncomesExpenses incomeOrExpenseFromChoosenPeriod;
     vector <IncomesExpenses>incomesOrExpensesFromChoosenPeriod;
-
-    for (int i= 0; i<incomes.size(); i++)
+    for (vector <IncomesExpenses> :: iterator itr = incomes.begin(); itr != incomes.end(); itr++)
     {
-        justDate = incomes[i].getDate();
+        justDate = itr->getDate();
 
         if ((justDate>= dateFrom) & (justDate<=dateTo))
         {
-            incomeOrExpenseFromChoosenPeriod.setIncomeOrExpenseID(incomes[i].getIncomeOrExpenseID());
-            incomeOrExpenseFromChoosenPeriod.setDate(incomes[i].getDate());
-            incomeOrExpenseFromChoosenPeriod.setTitle(incomes[i].getTitle());
-            incomeOrExpenseFromChoosenPeriod.setAmount(incomes[i].getAmount());
+            incomeOrExpenseFromChoosenPeriod.setIncomeOrExpenseID(itr->getIncomeOrExpenseID());
+            incomeOrExpenseFromChoosenPeriod.setDate(itr->getDate());
+            incomeOrExpenseFromChoosenPeriod.setTitle(itr->getTitle());
+            incomeOrExpenseFromChoosenPeriod.setAmount(itr->getAmount());
             incomesOrExpensesFromChoosenPeriod.push_back(incomeOrExpenseFromChoosenPeriod);
         }
     }
@@ -108,20 +107,20 @@ vector <IncomesExpenses> BudgetManager::loadIncomesOrExpensesFromChoosenPeriod (
 int BudgetManager::getTotalAmountFromChoosenPeriod (vector <IncomesExpenses> simpleVector )
 {
     int totalAmount = 0;
-    for (int i=0; i< simpleVector.size(); i++)
+    for (vector <IncomesExpenses> :: iterator itr = simpleVector.begin(); itr != simpleVector.end(); itr++)
     {
-        totalAmount+=simpleVector[i].getAmount();
+        totalAmount+=itr->getAmount();
     }
     return totalAmount;
 }
 void BudgetManager::showVectorElements (vector <IncomesExpenses> simpleVector)
 {
-    for (int i=0; i<simpleVector.size(); i++)
+    for (vector <IncomesExpenses> :: iterator itr = simpleVector.begin(); itr != simpleVector.end(); itr++)
     {
         cout <<endl;
-        cout << "Date: " << date.showDate(simpleVector[i].getDate()) << endl;
-        cout << "Title: " << simpleVector[i].getTitle() << endl;
-        cout << "Amount: " << simpleVector[i].getAmount() << endl;
+        cout << "Date: " << date.showDate(itr->getDate()) << endl;
+        cout << "Title: " << itr->getTitle() << endl;
+        cout << "Amount: " << itr->getAmount() << endl;
     }
 }
 void BudgetManager::showCurrentMonthBalance ()
@@ -136,7 +135,7 @@ void BudgetManager::showCurrentMonthBalance ()
     int dateToInt = AuxiliaryMethods::convertStringToInt(dateTo);
     vector <IncomesExpenses> incomesFromCurrentMonth = loadIncomesOrExpensesFromChoosenPeriod (incomes, dateFromInt, dateToInt);
     vector <IncomesExpenses> expensesFromCurrentMonth = loadIncomesOrExpensesFromChoosenPeriod (expenses, dateFromInt, dateToInt);
-
+    system ("cls");
     cout << " <<<  CURRENT MONTH BALANCE:  >>>" << endl << endl << endl;
     cout << "***  INCOMES:  ***" << endl;
     sort (incomesFromCurrentMonth.begin(), incomesFromCurrentMonth.end());
@@ -149,7 +148,9 @@ void BudgetManager::showCurrentMonthBalance ()
     cout << endl << "Expenses total amount: " << getTotalAmountFromChoosenPeriod(expensesFromCurrentMonth) << endl << endl;
 
     cout << "Difference beetwen incomes and expeses: " << getTotalAmountFromChoosenPeriod(incomesFromCurrentMonth) - getTotalAmountFromChoosenPeriod(expensesFromCurrentMonth) << endl << endl;
+    system("pause");
 }
+
 void BudgetManager::showLastMonthBalance ()
 {
     string monthString = AuxiliaryMethods::convertIntToString(date.currentMonth()-1);
@@ -165,7 +166,7 @@ void BudgetManager::showLastMonthBalance ()
     int dateToInt = AuxiliaryMethods::convertStringToInt(dateTo);
     vector <IncomesExpenses> incomesFromLastMonth = loadIncomesOrExpensesFromChoosenPeriod (incomes, dateFromInt, dateToInt);
     vector <IncomesExpenses> expensesFromLastMonth = loadIncomesOrExpensesFromChoosenPeriod (expenses, dateFromInt, dateToInt);
-
+    system ("cls");
     cout << " <<<  LAST MONTH BALANCE:  >>>" << endl << endl;
     cout << "***  INCOMES:  ***" << endl;
     sort (incomesFromLastMonth.begin(), incomesFromLastMonth.end());
@@ -178,13 +179,14 @@ void BudgetManager::showLastMonthBalance ()
     cout << endl << "Expenses total amount: " << getTotalAmountFromChoosenPeriod(expensesFromLastMonth) << endl << endl << endl;
 
     cout << "Difference beetwen incomes and expeses: " << getTotalAmountFromChoosenPeriod(incomesFromLastMonth) - getTotalAmountFromChoosenPeriod(expensesFromLastMonth) << endl << endl;
+    system("pause");
 
 }
 void BudgetManager::showBalanceFromChoosenPeriod()
 {
     int dateFrom, dateTo;
     string dateFromString, dateToString;
-
+    system ("cls");
     cout << " <<<  CHOOSEN PERIOD BALANCE:  >>>" << endl << endl;
     cout << "Provide the date since you want to display the balance in yyyy-mm-dd format. " << endl;
     cout << "From: ";
@@ -209,4 +211,5 @@ void BudgetManager::showBalanceFromChoosenPeriod()
     cout << endl << "Expenses total amount: " << getTotalAmountFromChoosenPeriod(expensesFromChoosenPeriod) << endl << endl << endl;
 
     cout << "Difference beetwen incomes and expeses: " << getTotalAmountFromChoosenPeriod(incomesFromChoosenPeriod) - getTotalAmountFromChoosenPeriod(expensesFromChoosenPeriod) << endl << endl;
+    system("pause");
 }

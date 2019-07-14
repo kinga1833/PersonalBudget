@@ -149,7 +149,7 @@ void UserManager::changePassword()
             system("pause");
         }
     }
-    usersFile.saveAllUsersDoFile(users);
+    usersFile.saveAllUsersToFile(users);
 }
 void UserManager::logOut()
 {

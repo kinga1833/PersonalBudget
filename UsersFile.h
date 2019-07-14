@@ -22,7 +22,7 @@ public:
     UsersFile(string USERSFILENAME): usersFileName (USERSFILENAME){};
     void addNewUserToFile(User user);
     vector <User> loadUsersFromFile();
-    void saveAllUsersDoFile(vector <User> users);
+    void saveAllUsersToFile(vector <User> users);
     bool fileExist(string fileName);
 };
 

@@ -21,7 +21,7 @@ public:
     };
     ~PersonalBudget()
     {
-        delete budgetManager;
+        //delete budgetManager;
         budgetManager = NULL;
     };
 

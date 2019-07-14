@@ -2,7 +2,6 @@
 
 void UsersFile::addNewUserToFile(User user)
 {
-    fstream xmlFile;
     CMarkup xml;
 
     if (fileExist("users.xml") == false)
@@ -41,9 +40,10 @@ vector <User> UsersFile::loadUsersFromFile()
     User user;
     vector <User> users;
     string userId, userLogin, userPassword, userName, userSurname;
-    xml.Load("users.xml");
+    xml.Load(usersFileName.c_str());
     xml.FindElem("Users");
     xml.IntoElem();
+
     while (xml.FindElem("User"))
     {
         xml.IntoElem();
@@ -67,6 +67,42 @@ vector <User> UsersFile::loadUsersFromFile()
     }
     return users;
 }
+void UsersFile::saveAllUsersToFile(vector <User> users)
+{
+    CMarkup xml;
+    for (vector <User> :: iterator itr = users.begin(); itr != users.end(); itr++)
+    {
+        if (fileExist("users.xml") == false)
+        {
+            xml.AddElem("Users");
+            xml.IntoElem();
+            xml.AddElem("User");
+            xml.IntoElem();
+            xml.AddElem( "UserID", itr->getUserID() );
+            xml.AddElem( "login", itr->getLogin() );
+            xml.AddElem( "password", itr->getPassword());
+            xml.AddElem( "name", itr->getName());
+            xml.AddElem( "surname", itr->getSurname());
+            xml.OutOfElem();
+            xml.Save( usersFileName.c_str() );
+        }
+        else
+        {
+            xml.Load(usersFileName.c_str());
+            xml.FindElem();
+            xml.IntoElem();
+            xml.AddElem("User");
+            xml.IntoElem();
+            xml.AddElem( "UserID", itr->getUserID() );
+            xml.AddElem( "login", itr->getLogin() );
+            xml.AddElem( "password", itr->getPassword());
+            xml.AddElem( "name", itr->getName());
+            xml.AddElem( "surname", itr->getSurname());
+            xml.OutOfElem();
+            xml.Save( usersFileName.c_str() );
+        }
+    }
+}
 bool UsersFile::checkIfFileIsEmpty()
 {
     fstream xmlFile;
@@ -76,35 +112,11 @@ bool UsersFile::checkIfFileIsEmpty()
     else
         return false;
 }
-void UsersFile::saveAllUsersDoFile(vector <User> users)
+bool UsersFile::fileExist(string fileName)
 {
-    fstream xmlFile;
-    vector <User>::iterator itrEnd = --users.end();
-
-    xmlFile.open(usersFileName.c_str(), ios::out);
-
-    if (xmlFile.good() == true)
-    {
-        for (int i=0; i<users.size(); i++)
-        {
-            xmlFile << "<userID>" << users[i].getUserID()<< "<userID>" << endl;
-            xmlFile << "<login>" << users[i].getLogin() << "<login>" << endl;
-            xmlFile << "<password>" << users[i].getPassword() << "<password>" << endl;
-            xmlFile << "<name>" << users[i].getName() << "<name>" << endl;
-            xmlFile << "<surname>" << users[i].getSurname() << "<surname>" << endl;
-        }
-        xmlFile.close();
-    }
-    else
-    {
-        cout << "File can't be opened." << endl;
-    }
-}
- bool UsersFile::fileExist(string fileName)
- {
-     CMarkup xml;
-     if (xml.Load(usersFileName.c_str()) == true)
+    CMarkup xml;
+    if (xml.Load(usersFileName.c_str()) == true)
         return true;
-     else
+    else
         return false;
- }
+}

@@ -115,9 +115,9 @@ char PersonalBudget::chooseOptionFromMenuLoggedUsers()
     cout << "2. Add expense " << endl;
     cout << "3. Show current month balance " << endl;
     cout << "4. Show last month balance " << endl;
-    cout << "6. Show balance from choosen period " << endl;
-    cout << "7. Change password " << endl;
-    cout << "8. Log out" << endl;
+    cout << "5. Show balance from choosen period " << endl;
+    cout << "6. Change password " << endl;
+    cout << "7. Log out" << endl;
 
     cout << "Choose option from menu: ";
     cin >> choice;
