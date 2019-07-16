@@ -3,6 +3,7 @@
 void ExpensesFile::addExpenseToFile(IncomesExpenses expense)
 {
     CMarkup xml;
+    Date date;
 
     if (fileExists(expensesFileName.c_str()) == false)
     {
@@ -12,7 +13,7 @@ void ExpensesFile::addExpenseToFile(IncomesExpenses expense)
         xml.IntoElem();
         xml.AddElem( "USERID", expense.getUserID());
         xml.AddElem( "EXPENSEID", expense.getIncomeOrExpenseID());
-        xml.AddElem( "DATE", expense.getDate());
+        xml.AddElem( "DATE", date.convertToDateWithDash(expense.getDate()));
         xml.AddElem( "TITLE", expense.getTitle());
         xml.AddElem( "AMOUNT", expense.getAmount());
         xml.OutOfElem();
@@ -27,7 +28,7 @@ void ExpensesFile::addExpenseToFile(IncomesExpenses expense)
         xml.IntoElem();
         xml.AddElem( "USERID", expense.getUserID());
         xml.AddElem( "EXPENSEID", expense.getIncomeOrExpenseID());
-        xml.AddElem( "DATE", expense.getDate());
+        xml.AddElem( "DATE", date.convertToDateWithDash(expense.getDate()));
         xml.AddElem( "TITLE", expense.getTitle());
         xml.AddElem( "AMOUNT", expense.getAmount());
         xml.OutOfElem();
@@ -41,6 +42,7 @@ vector <IncomesExpenses> ExpensesFile::downloadLoggedInUserExpenses(int loggedIn
 {
     CMarkup xml;
     IncomesExpenses expense;
+    Date date;
     vector <IncomesExpenses> expenses;
     int userid;
 
@@ -60,7 +62,7 @@ vector <IncomesExpenses> ExpensesFile::downloadLoggedInUserExpenses(int loggedIn
             xml.FindElem( "EXPENSEID" );
             expense.setIncomeOrExpenseID(atoi( MCD_2PCSZ(xml.GetData())));
             xml.FindElem( "DATE" );
-            expense.setDate(atoi( MCD_2PCSZ(xml.GetData())));
+            expense.setDate(date.convertDateToDateWithoutDash( MCD_2PCSZ(xml.GetData())));
             xml.FindElem( "TITLE" );
             expense.setTitle(MCD_2PCSZ(xml.GetData())) ;
             xml.FindElem( "AMOUNT" );
@@ -78,7 +80,6 @@ vector <IncomesExpenses> ExpensesFile::downloadLoggedInUserExpenses(int loggedIn
     {
         lastExpenseID = 0;
     }
-    //lastExpenseID = expenses.back().getIncomeOrExpenseID();
 
     return expenses;
 }

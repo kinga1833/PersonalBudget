@@ -29,5 +29,6 @@ public:
     bool isTheDateCorrect (string date);
     string showDate(int dateWithoutDash);
     int convertDateToDateWithoutDash(string dateInYyyyMmDdFormat);
+    string convertToDateWithDash(int date);
 };
 #endif

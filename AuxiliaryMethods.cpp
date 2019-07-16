@@ -23,3 +23,10 @@ int AuxiliaryMethods::convertStringToInt(string number)
     iss >> numberInt;
     return numberInt;
 }
+string AuxiliaryMethods::convertFloatToString(float amount)
+{
+    ostringstream ss;
+    ss << amount;
+    string amountString=ss.str();
+    return amountString;
+}

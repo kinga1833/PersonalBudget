@@ -3,6 +3,7 @@
 void IncomesFile::addIncomeToFile(IncomesExpenses income)
 {
     CMarkup xml;
+    Date date;
 
     if (fileExists(incomesFileName.c_str()) == false)
     {
@@ -12,9 +13,9 @@ void IncomesFile::addIncomeToFile(IncomesExpenses income)
         xml.IntoElem();
         xml.AddElem( "USERID", income.getUserID());
         xml.AddElem( "INCOMEID", income.getIncomeOrExpenseID());
-        xml.AddElem( "DATE", income.getDate());
+        xml.AddElem( "DATE", date.convertToDateWithDash(income.getDate()));
         xml.AddElem( "TITLE", income.getTitle());
-        xml.AddElem( "AMOUNT", income.getAmount());
+        xml.AddElem( "AMOUNT", AuxiliaryMethods::convertFloatToString(income.getAmount()));
         xml.OutOfElem();
         xml.Save( incomesFileName.c_str() );
     }
@@ -27,19 +28,19 @@ void IncomesFile::addIncomeToFile(IncomesExpenses income)
         xml.IntoElem();
         xml.AddElem( "USERID", income.getUserID());
         xml.AddElem( "INCOMEID", income.getIncomeOrExpenseID());
-        xml.AddElem( "DATE", income.getDate());
+        xml.AddElem( "DATE", date.convertToDateWithDash(income.getDate()));
         xml.AddElem( "TITLE", income.getTitle());
         xml.AddElem( "AMOUNT", income.getAmount());
         xml.OutOfElem();
         xml.Save( incomesFileName.c_str() );
     }
     lastIncomeID++;
-
-    system("pause");
 }
 vector <IncomesExpenses> IncomesFile::downloadLoggedInUserIncomes(int loggedInUserID)
 {
     CMarkup xml;
+    Date date;
+    int dateInt;
     IncomesExpenses income;
     vector <IncomesExpenses> incomes;
     int userid;
@@ -47,21 +48,18 @@ vector <IncomesExpenses> IncomesFile::downloadLoggedInUserIncomes(int loggedInUs
     xml.Load(incomesFileName.c_str());
     xml.FindElem("INCOMES");
     xml.IntoElem();
-    cout << "kaka" << endl;
     while (xml.FindElem("INCOME"))
     {
         xml.IntoElem();
         xml.FindElem("USERID");
         userid = atoi( MCD_2PCSZ(xml.GetData()));
-        cout << userid << endl;
         if (userid == loggedInUserID)
         {
-            cout << "kaka2" << endl;
             income.setUserID(userid);
             xml.FindElem( "INCOMEID" );
             income.setIncomeOrExpenseID(atoi( MCD_2PCSZ(xml.GetData())));
             xml.FindElem( "DATE" );
-            income.setDate(atoi( MCD_2PCSZ(xml.GetData())));
+            income.setDate(date.convertDateToDateWithoutDash( MCD_2PCSZ(xml.GetData())));
             xml.FindElem( "TITLE" );
             income.setTitle(MCD_2PCSZ(xml.GetData())) ;
             xml.FindElem( "AMOUNT" );
@@ -71,33 +69,6 @@ vector <IncomesExpenses> IncomesFile::downloadLoggedInUserIncomes(int loggedInUs
         }
         xml.OutOfElem();
     }
-
-    /*xml.Load(incomesFileName.c_str());
-    xml.FindElem("INCOMES");
-    xml.IntoElem();
-
-    while (xml.FindElem("INCOME"))
-    {
-        xml.IntoElem();
-        xml.FindElem("USERID");
-        userid = atoi( MCD_2PCSZ(xml.GetData()));
-
-        if (userid == loggedInUserID)
-        {
-            income.setUserID(userid);
-            xml.FindElem( "INCOMEID" );
-            income.setIncomeOrExpenseID(atoi( MCD_2PCSZ(xml.GetData())));
-            xml.FindElem( "DATE" );
-            income.setDate(atoi( MCD_2PCSZ(xml.GetData())));
-            xml.FindElem( "TITLE" );
-            income.setTitle(MCD_2PCSZ(xml.GetData())) ;
-            xml.FindElem( "AMOUNT" );
-            income.setAmount(atoi (MCD_2PCSZ(xml.GetData())));
-
-            incomes.push_back(income);
-        }
-         xml.OutOfElem();
-    }*/
     if (fileExists(incomesFileName.c_str())== true)
     {
         lastIncomeID = incomes.back().getIncomeOrExpenseID();

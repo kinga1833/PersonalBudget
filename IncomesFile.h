@@ -5,9 +5,11 @@
 #include <vector>
 #include <fstream>
 #include <cstdlib>
+#include<string>
 #include "IncomesExpenses.h"
 #include "AuxiliaryMethods.h"
 #include "Markup.h"
+#include "Date.h"
 
 using namespace std;
 

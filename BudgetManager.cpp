@@ -7,16 +7,17 @@ void BudgetManager::addIncome()
     system("cls");
     cout << " >>> ADD INCOME <<<" << endl << endl;
     income = addInformationAboutIncome();
-
-    expenses.push_back(income);
+    incomes.push_back(income);
     incomesFile.addIncomeToFile(income);
+    system("pause");
 }
 IncomesExpenses BudgetManager::addInformationAboutIncome()
 {
     IncomesExpenses income;
     char choice;
     int dateIncome;
-    string title, amount;
+    string title;
+    float amount;
 
     income.setIncomeOrExpenseID(incomesFile.downloadLastIncomeID()+ 1);
     income.setUserID(loggedInUserID);
@@ -38,8 +39,7 @@ IncomesExpenses BudgetManager::addInformationAboutIncome()
 
     income.setDate(dateIncome);
     income.setTitle(title);
-    income.setAmount(atof(amount.c_str()));
-
+    income.setAmount(amount);
     return income;
 }
 void BudgetManager::addExpense()
@@ -87,6 +87,7 @@ IncomesExpenses BudgetManager::addInformationAboutExpense()
 vector <IncomesExpenses> BudgetManager::loadIncomesOrExpensesFromChoosenPeriod (vector <IncomesExpenses> incomes, int dateFrom, int dateTo)
 {
     int justDate;
+    Date dateDate;
     IncomesExpenses incomeOrExpenseFromChoosenPeriod;
     vector <IncomesExpenses>incomesOrExpensesFromChoosenPeriod;
     for (vector <IncomesExpenses> :: iterator itr = incomes.begin(); itr != incomes.end(); itr++)
@@ -118,13 +119,14 @@ void BudgetManager::showVectorElements (vector <IncomesExpenses> simpleVector)
     for (vector <IncomesExpenses> :: iterator itr = simpleVector.begin(); itr != simpleVector.end(); itr++)
     {
         cout <<endl;
-        cout << "Date: " << date.showDate(itr->getDate()) << endl;
+        cout << "Date: " << date.convertToDateWithDash(itr->getDate()) << endl;
         cout << "Title: " << itr->getTitle() << endl;
         cout << "Amount: " << itr->getAmount() << endl;
     }
 }
 void BudgetManager::showCurrentMonthBalance ()
 {
+    Date date;
     string monthString = AuxiliaryMethods::convertIntToString(date.currentMonth());
     if (monthString.length() == 1)
         monthString = "0"+monthString;

@@ -13,6 +13,7 @@ class AuxiliaryMethods
     static string convertIntToString(int number);
     static string zamienPierwszaLitereNaDuzaAPozostaleNaMale(string text);
     static int convertStringToInt(string number);
+    static string convertFloatToString(float amount);
 
 };
 #endif

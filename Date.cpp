@@ -160,3 +160,19 @@ int Date::convertDateToDateWithoutDash(string dateInYyyyMmDdFormat)
 
     return dateWithoutDash;
 }
+string Date::convertToDateWithDash(int dateInt)
+{
+    string dateWithoutDash = "";
+    dateWithoutDash= AuxiliaryMethods::convertIntToString(dateInt);
+    string dateWithDash = "";
+
+    for (int i=0; i<dateWithoutDash.length(); i++)
+    {
+        dateWithDash += dateWithoutDash[i];
+        if ((i==3) || (i==5))
+        {
+            dateWithDash += '-';
+        }
+    }
+    return dateWithDash;
+}
