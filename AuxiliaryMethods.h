@@ -13,6 +13,8 @@ class AuxiliaryMethods
     static string convertIntToString(int number);
     static int convertStringToInt(string number);
     static string convertFloatToString(float amount);
+    static float convertStringToFloat(string number);
+    static float changeCommaForDot (string amount);
 
 };
 #endif

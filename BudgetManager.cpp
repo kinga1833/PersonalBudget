@@ -16,8 +16,7 @@ IncomesExpenses BudgetManager::addInformationAboutIncome()
     IncomesExpenses income;
     char choice;
     int dateIncome;
-    string title;
-    float amount;
+    string title, amount;
 
     income.setIncomeOrExpenseID(incomesFile.downloadLastIncomeID()+ 1);
     income.setUserID(loggedInUserID);
@@ -39,7 +38,7 @@ IncomesExpenses BudgetManager::addInformationAboutIncome()
 
     income.setDate(dateIncome);
     income.setTitle(title);
-    income.setAmount(amount);
+    income.setAmount(AuxiliaryMethods::changeCommaForDot(amount));
     return income;
 }
 void BudgetManager::addExpense()
@@ -80,7 +79,7 @@ IncomesExpenses BudgetManager::addInformationAboutExpense()
 
     expense.setDate(dateExpense);
     expense.setTitle(title);
-    expense.setAmount(atof(amount.c_str()));
+    expense.setAmount(AuxiliaryMethods::changeCommaForDot(amount));
 
     return expense;
 }
@@ -105,9 +104,9 @@ vector <IncomesExpenses> BudgetManager::loadIncomesOrExpensesFromChoosenPeriod (
     }
     return incomesOrExpensesFromChoosenPeriod;
 }
-int BudgetManager::getTotalAmountFromChoosenPeriod (vector <IncomesExpenses> simpleVector )
+float BudgetManager::getTotalAmountFromChoosenPeriod (vector <IncomesExpenses> simpleVector )
 {
-    int totalAmount = 0;
+    float totalAmount;
     for (vector <IncomesExpenses> :: iterator itr = simpleVector.begin(); itr != simpleVector.end(); itr++)
     {
         totalAmount+=itr->getAmount();
@@ -186,15 +185,26 @@ void BudgetManager::showLastMonthBalance ()
 }
 void BudgetManager::showBalanceFromChoosenPeriod()
 {
+    Date correctDate;
     int dateFrom, dateTo;
     string dateFromString, dateToString;
     system ("cls");
     cout << " <<<  CHOOSEN PERIOD BALANCE:  >>>" << endl << endl;
-    cout << "Provide the date since you want to display the balance in yyyy-mm-dd format. " << endl;
-    cout << "From: ";
-    cin >> dateFromString;
-    cout << "To: ";
-    cin >> dateToString;
+    cout << "Provide the date since you want to display the balance in yyyy-mm-dd format: " << endl;
+    do
+    {
+        dateFromString = "";
+        cin >> dateFromString;
+    }
+    while (correctDate.isTheDateCorrect(dateFromString) == false);
+
+    cout << "Provide the date until you want to display the balance in yyyy-mm-dd format: " << endl;
+    do
+    {
+        dateToString = "";
+        cin >> dateToString;
+    }
+    while (correctDate.isTheDateCorrect(dateToString) == false);
 
     dateFrom = date.convertDateToDateWithoutDash(dateFromString);
     dateTo = date.convertDateToDateWithoutDash(dateToString);

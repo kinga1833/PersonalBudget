@@ -29,7 +29,7 @@ class BudgetManager
     vector <IncomesExpenses> loadIncomesOrExpensesFromChoosenPeriod (vector <IncomesExpenses> incomes, int dateFrom, int dateTo);
     int showIncomeOrExpenseBalance(vector <IncomesExpenses> simpleVector);
     void showVectorElements (vector <IncomesExpenses> simpleVector);
-    int getTotalAmountFromChoosenPeriod (vector <IncomesExpenses> simpleVector);
+    float getTotalAmountFromChoosenPeriod (vector <IncomesExpenses> simpleVector);
 
     public:
         BudgetManager(string incomesFileName, string expensesFileName, int LOGGEDINUSERID)

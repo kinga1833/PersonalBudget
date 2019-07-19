@@ -21,3 +21,25 @@ string AuxiliaryMethods::convertFloatToString(float amount)
     string amountString=ss.str();
     return amountString;
 }
+float AuxiliaryMethods::convertStringToFloat(string number)
+{
+    float numberInt;
+    istringstream iss(number);
+    iss >> numberInt;
+    return numberInt;
+}
+float AuxiliaryMethods::changeCommaForDot (string amount)
+{
+    float correctAmount = 0;
+    string correctAmountString = "";
+
+    for (int i=0; i<amount.length(); i++)
+    {
+        if (amount[i] == ',')
+            correctAmountString+= '.';
+        else
+            correctAmountString += amount[i];
+    }
+    correctAmount = convertStringToFloat(correctAmountString);
+    return correctAmount;
+}
