@@ -130,6 +130,8 @@ int UserManager::logIn()
         }
         cout << "User with this login doesn't exist." << endl << endl;
         system("pause");
+
+
         return 0;
     }
 }

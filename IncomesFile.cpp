@@ -30,7 +30,7 @@ void IncomesFile::addIncomeToFile(IncomesExpenses income)
         xml.AddElem( "INCOMEID", income.getIncomeOrExpenseID());
         xml.AddElem( "DATE", date.convertToDateWithDash(income.getDate()));
         xml.AddElem( "TITLE", income.getTitle());
-        xml.AddElem( "AMOUNT", income.getAmount());
+        xml.AddElem( "AMOUNT", AuxiliaryMethods::convertFloatToString(income.getAmount()));
         xml.OutOfElem();
         xml.Save( incomesFileName.c_str() );
     }
@@ -63,19 +63,19 @@ vector <IncomesExpenses> IncomesFile::downloadLoggedInUserIncomes(int loggedInUs
             xml.FindElem( "TITLE" );
             income.setTitle(MCD_2PCSZ(xml.GetData())) ;
             xml.FindElem( "AMOUNT" );
-            income.setAmount(atoi (MCD_2PCSZ(xml.GetData())));
+            income.setAmount(atof(MCD_2PCSZ(xml.GetData())));
 
             incomes.push_back(income);
         }
         xml.OutOfElem();
     }
-    if (fileExists(incomesFileName.c_str())== true)
+    if (fileExists(incomesFileName.c_str())== false || incomes.size() == 0)
+    {
+         lastIncomeID = 0;
+    }
+    else if (fileExists(incomesFileName.c_str())== true)
     {
         lastIncomeID = incomes.back().getIncomeOrExpenseID();
-    }
-    else
-    {
-        lastIncomeID = 0;
     }
 
     return incomes;

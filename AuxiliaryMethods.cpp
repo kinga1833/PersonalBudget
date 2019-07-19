@@ -7,15 +7,6 @@ string AuxiliaryMethods::convertIntToString(int number)
     string str = ss.str();
     return str;
 }
-string AuxiliaryMethods::zamienPierwszaLitereNaDuzaAPozostaleNaMale(string text)
-{
-    if (!text.empty())
-    {
-        transform(text.begin(), text.end(), text.begin(), ::tolower);
-        text[0] = toupper(text[0]);
-    }
-    return text;
-}
 int AuxiliaryMethods::convertStringToInt(string number)
 {
     int numberInt;

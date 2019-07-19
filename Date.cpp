@@ -129,7 +129,7 @@ int Date::howManyDaysHasMonthHave (int month, int year)
     }
     else if ((month == 4) ||(month == 6) ||(month == 9) ||(month == 11))
     {
-        numberOfDays = 28;
+        numberOfDays = 30;
     }
     return numberOfDays;
 }

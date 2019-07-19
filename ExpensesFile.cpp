@@ -15,7 +15,7 @@ void ExpensesFile::addExpenseToFile(IncomesExpenses expense)
         xml.AddElem( "EXPENSEID", expense.getIncomeOrExpenseID());
         xml.AddElem( "DATE", date.convertToDateWithDash(expense.getDate()));
         xml.AddElem( "TITLE", expense.getTitle());
-        xml.AddElem( "AMOUNT", expense.getAmount());
+        xml.AddElem( "AMOUNT", AuxiliaryMethods::convertFloatToString(expense.getAmount()));
         xml.OutOfElem();
         xml.Save( expensesFileName.c_str() );
     }
@@ -30,7 +30,7 @@ void ExpensesFile::addExpenseToFile(IncomesExpenses expense)
         xml.AddElem( "EXPENSEID", expense.getIncomeOrExpenseID());
         xml.AddElem( "DATE", date.convertToDateWithDash(expense.getDate()));
         xml.AddElem( "TITLE", expense.getTitle());
-        xml.AddElem( "AMOUNT", expense.getAmount());
+        xml.AddElem( "AMOUNT", AuxiliaryMethods::convertFloatToString(expense.getAmount()));
         xml.OutOfElem();
         xml.Save( expensesFileName.c_str() );
     }
@@ -66,19 +66,19 @@ vector <IncomesExpenses> ExpensesFile::downloadLoggedInUserExpenses(int loggedIn
             xml.FindElem( "TITLE" );
             expense.setTitle(MCD_2PCSZ(xml.GetData())) ;
             xml.FindElem( "AMOUNT" );
-            expense.setAmount(atoi (MCD_2PCSZ(xml.GetData())));
+            expense.setAmount(atof (MCD_2PCSZ(xml.GetData())));
 
             expenses.push_back(expense);
         }
          xml.OutOfElem();
     }
-    if (fileExists(expensesFileName.c_str())== true)
+     if (fileExists(expensesFileName.c_str())== false || expenses.size() == 0)
+    {
+         lastExpenseID = 0;
+    }
+    else if (fileExists(expensesFileName.c_str())== true)
     {
         lastExpenseID = expenses.back().getIncomeOrExpenseID();
-    }
-    else
-    {
-        lastExpenseID = 0;
     }
 
     return expenses;

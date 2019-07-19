@@ -69,38 +69,22 @@ vector <User> UsersFile::loadUsersFromFile()
 }
 void UsersFile::saveAllUsersToFile(vector <User> users)
 {
+    remove("users.xml") ;
     CMarkup xml;
+    xml.AddElem("Users");
     for (vector <User> :: iterator itr = users.begin(); itr != users.end(); itr++)
     {
-        if (fileExist("users.xml") == false)
-        {
-            xml.AddElem("Users");
-            xml.IntoElem();
-            xml.AddElem("User");
-            xml.IntoElem();
-            xml.AddElem( "UserID", itr->getUserID() );
-            xml.AddElem( "login", itr->getLogin() );
-            xml.AddElem( "password", itr->getPassword());
-            xml.AddElem( "name", itr->getName());
-            xml.AddElem( "surname", itr->getSurname());
-            xml.OutOfElem();
-            xml.Save( usersFileName.c_str() );
-        }
-        else
-        {
-            xml.Load(usersFileName.c_str());
-            xml.FindElem();
-            xml.IntoElem();
-            xml.AddElem("User");
-            xml.IntoElem();
-            xml.AddElem( "UserID", itr->getUserID() );
-            xml.AddElem( "login", itr->getLogin() );
-            xml.AddElem( "password", itr->getPassword());
-            xml.AddElem( "name", itr->getName());
-            xml.AddElem( "surname", itr->getSurname());
-            xml.OutOfElem();
-            xml.Save( usersFileName.c_str() );
-        }
+        xml.IntoElem();
+        xml.AddElem("User");
+        xml.IntoElem();
+        xml.AddElem( "UserID", itr->getUserID() );
+        xml.AddElem( "login", itr->getLogin() );
+        xml.AddElem( "password", itr->getPassword());
+        xml.AddElem( "name", itr->getName());
+        xml.AddElem( "surname", itr->getSurname());
+        xml.OutOfElem();
+        xml.OutOfElem();
+        xml.Save( usersFileName.c_str() );
     }
 }
 bool UsersFile::checkIfFileIsEmpty()

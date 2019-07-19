@@ -4,8 +4,8 @@
 #include <iostream>
 #include <vector>
 #include <fstream>
+#include <string>
 #include <cstdlib>
-#include<string>
 #include "IncomesExpenses.h"
 #include "AuxiliaryMethods.h"
 #include "Markup.h"
